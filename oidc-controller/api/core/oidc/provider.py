@@ -62,7 +62,7 @@ kc_client = {
     "allowed_scopes": ["openid", "profile", "vc_authn"],
     "response_types": ["code", "id_token", "token"],
     "redirect_uris": [
-        "http://localhost:8880/auth/realms/vc-authn/broker/vc-authn/endpoint"
+        "https://ssi-studio-keycloak-vc-authn-oidc20.apps.exp.openshift.cqen.ca/realms/SSI-Studio/broker/vc-authn/endpoint"
     ],
     "token_endpoint_auth_method": "client_secret_basic",
     "require_client_secret": True,
