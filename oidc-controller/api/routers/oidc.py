@@ -88,7 +88,7 @@ async def get_authorize(request: Request):
     <html>
         <script>
         setInterval(function() {{
-            fetch('{controller_host}/vc/connect{ChallengePollUri}/{auth_session.pres_exch_id}')
+            fetch('{controller_host}/vc/connect{ChallengePollUri}/{auth_session.id}')
                 .then(response => response.json())
                 .then(data => {{if (data.verified) {{
                         window.location.replace('{controller_host}{AuthorizeCallbackUri}?pid={auth_session.id}', {{method: 'POST'}});
