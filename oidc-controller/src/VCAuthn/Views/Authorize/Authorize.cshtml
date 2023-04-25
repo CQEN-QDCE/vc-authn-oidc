@@ -45,10 +45,14 @@
         <b-card :body-class="cardBodyClass" style="min-width: 400px;">
           <b-card-title class="card-title" variant="primary">
             <b-icon icon="shield-shaded" variant="primary"></b-icon>
-            Authentication Required
+              <!-- Authentication Required -->
+              Authentification requise
             <b-icon icon="shield-shaded"  variant="primary"></b-icon>
           </b-card-title>
-          <b-card-text>Please provide your Verifiable Credentials</b-card-text>
+          <b-card-text>
+            <!-- Please provide your Verifiable Credentials -->
+            Veuillez fournir votre attestation vérifiable signé par le Service de vérification de courriel du CQEN.
+          </b-card-text>
 
            <div class="my-5">
             <qrcode-vue :value="qrUri" :size="qrWidth" level="H"></qrcode-vue>
@@ -56,15 +60,14 @@
 
           <b-button :href="btnUri" variant="outline-primary">
               <b-icon icon="box-arrow-up-right"></b-icon>
-              Open in a Trusted Digital Wallet
+              <!-- Open in a Trusted Digital Wallet -->
+              Ouvrir le portefeuille numérique
           </b-button>
-          <p class="info"><span class="info-header">MOBILE DEVICE USERS: </span> To authenticate, tap the button above</p>
+          <!-- <p class="info"><span class="info-header">MOBILE DEVICE USERS: </span> To authenticate, tap the button above</p> -->
+          <p class="info"><span class="info-header">SI VOUS ÊTES SUR VOTRE APPAREIL MOBILE: </span> Pour vous authentifier, appuyez sur le bouton ci-dessus "Ouvrir le portefeuille numérique"</p>
 
-          <p class="info"><span class="info-header">DESKTOP/LAPTOP USERS: </span>
-           To authenticate, present your digital credential by using your identity wallet phone app to scan the QR code above</p>
-          
-         
-
+          <!-- <p class="info"><span class="info-header">DESKTOP/LAPTOP USERS: </span> To authenticate, present your digital credential by using your identity wallet phone app to scan the QR code above</p> -->
+          <p class="info"><span class="info-header">SI VOUS ÊTES SUR VOTRE ORDINATEUR: </span> Pour vous authentifier, présentez votre attestation vérifiable en utilisant l'application mobile "Portefeuille QC" pour scanner le code QR ci-dessus.</p>
           
         </b-card>
        
