@@ -19,21 +19,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous">
     </script>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <!-- Navbar content -->
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img class="img-fluid d-none d-md-block" src="/assets/images/qc-logo.svg" width="177" height="44" alt="Gouvernement du Québec Logo">
 
-                    <img class="img-fluid d-md-none" src="/assets/images/qc-logo.svg" width="63" height="44" alt="Gouvernement du Québec Logo">
-                </a>
-                <div class="navbar-brand">
-                    Service d'authentification par courriel du CQEN **DEMO**
-                </div>
-            </div>
-        </nav>
-    </header>
+@RenderPage("~/Shared/_Header.cshtml")
 
 <div class="container body-content">
     @RenderBody()
