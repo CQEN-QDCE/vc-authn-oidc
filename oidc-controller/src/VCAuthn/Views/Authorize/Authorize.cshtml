@@ -106,6 +106,9 @@
                 window.location.replace(this.resolutionUrl);
               },
               async error => {
+                if (error.request.status === 401) {
+                  window.location.replace('/unverified');
+                }
                 await this.sleep(this.pollInterval);
                 return axios.request(error.config);
               }
