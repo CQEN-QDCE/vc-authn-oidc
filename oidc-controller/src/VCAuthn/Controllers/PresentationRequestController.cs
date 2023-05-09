@@ -48,6 +48,7 @@ namespace VCAuthn.Controllers
                 return BadRequest();
             }
             else if (authSession.Presentation != null && authSession.PresentationRequestSatisfied == false)
+            {
                 _logger.LogDebug($"Presentation request was not satisfied. AuthSession: [{authSession}]");
                 return Unauthorized();
             }
