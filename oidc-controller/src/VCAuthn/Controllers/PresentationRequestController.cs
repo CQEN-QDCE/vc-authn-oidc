@@ -42,12 +42,15 @@ namespace VCAuthn.Controllers
                 return NotFound();
             }
 
-            if (authSession.PresentationRequestSatisfied == false)
+            if (authSession.Presentation == null)
             {
-                _logger.LogDebug($"Presentation request was not satisfied. AuthSession: [{authSession}]");
+                _logger.LogDebug($"No presentation has yet been received. AuthSession: [{authSession}]");
                 return BadRequest();
             }
-
+            else if (authSession.Presentation != null && authSession.PresentationRequestSatisfied == false)
+                _logger.LogDebug($"Presentation request was not satisfied. AuthSession: [{authSession}]");
+                return Unauthorized();
+            }
 
             return Ok();
         }

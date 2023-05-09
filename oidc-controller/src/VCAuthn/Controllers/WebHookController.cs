@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VCAuthn.ACAPY;
+using VCAuthn.IdentityServer.Endpoints;
 using VCAuthn.Models;
 using VCAuthn.Services.Contracts;
 using VCAuthn.Utils;
@@ -13,7 +14,7 @@ using VCAuthn.Utils;
 namespace VCAuthn.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class WebHooksController : ControllerBase
+    public class WebHooksController : Controller
     {
         private readonly ISessionStorageService _sessionStorageService;
         private readonly IConfiguration _config;
@@ -39,6 +40,12 @@ namespace VCAuthn.Controllers
             return ProcessWebhook(null, topic, update);
         }
 
+        [HttpGet("/unverified")]
+        public IActionResult UnVerified()
+        {
+            return View("~/Views/WebHook/UnVerified.cshtml");
+        }
+
         private async Task<ActionResult> ProcessWebhook(string apiKey, string topic, PresentationUpdate update)
         {
             if (!string.IsNullOrEmpty(_config.GetValue<string>("ApiKey")) && !string.Equals(_config.GetValue<string>("ApiKey"), apiKey))
@@ -59,7 +66,7 @@ namespace VCAuthn.Controllers
             {
                 if (update.State != ACAPYConstants.SuccessfulPresentationUpdate)
                 {
-                    _logger.LogDebug($"Presentation Request not yet received, state is [{update.State}]");
+                    _logger.LogDebug($"Presentation Request not yet completed, state is [{update.State}]");
                     return Ok();
                 }
 
@@ -70,8 +77,15 @@ namespace VCAuthn.Controllers
                 };
 
                 _logger.LogDebug($"Marking Presentation Request with id : {update.PresentationExchangeId} as satisfied");
+                if (!update.Verified)
+                {
+                    _logger.LogDebug($"Verification was not successful for presentation with id {update.PresentationExchangeId}");
+                    await _sessionStorageService.UpdatePresentationRequestIdAsync(update.PresentationExchangeId, partialPresentation);
+                    return Redirect("/unVerified");
+                }
 
-                await _sessionStorageService.SatisfyPresentationRequestIdAsync(update.PresentationExchangeId, partialPresentation);
+                _logger.LogDebug($"Marking Presentation Request with id : {update.PresentationExchangeId} as processed");
+                await _sessionStorageService.UpdatePresentationRequestIdAsync(update.PresentationExchangeId, partialPresentation, true);
             }
             catch (Exception e)
             {
