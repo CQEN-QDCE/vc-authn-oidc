@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -34,16 +35,17 @@ namespace VCAuthn.Controllers
             return ProcessWebhook(apiKey, topic, update);
         }
 
-        [HttpPost("/topic/{topic}")]
-        public Task<ActionResult> GetTopicUpdate([FromRoute] string topic, [FromBody] PresentationUpdate update)
-        {
-            return ProcessWebhook(null, topic, update);
-        }
-
+        [AllowAnonymous]
         [HttpGet("/unverified")]
         public IActionResult UnVerified()
         {
             return View("~/Views/WebHook/UnVerified.cshtml");
+        }
+
+        [HttpPost("/topic/{topic}")]
+        public Task<ActionResult> GetTopicUpdate([FromRoute] string topic, [FromBody] PresentationUpdate update)
+        {
+            return ProcessWebhook(null, topic, update);
         }
 
         private async Task<ActionResult> ProcessWebhook(string apiKey, string topic, PresentationUpdate update)
@@ -81,7 +83,7 @@ namespace VCAuthn.Controllers
                 {
                     _logger.LogDebug($"Verification was not successful for presentation with id {update.PresentationExchangeId}");
                     await _sessionStorageService.UpdatePresentationRequestIdAsync(update.PresentationExchangeId, partialPresentation);
-                    return Redirect("/unVerified");
+                    return RedirectToAction("UnVerified");
                 }
 
                 _logger.LogDebug($"Marking Presentation Request with id : {update.PresentationExchangeId} as processed");
