@@ -15,15 +15,20 @@ namespace VCAuthn.Utils
             {
                 Version = configuration.Version,
                 Name = configuration.Name,
-                NonRevoked = new RevocationInterval()
-                 {
-                     From = 0,
-                     To = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds()
-                }
+//                NonRevoked = new RevocationInterval()
+  //               {
+    //                 From = 0,
+      //               To = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds()
+        //        }
             };
 
             configuration.RequestedAttributes.ForEach(delegate (RequestedAttribute reqAttribute)
             {
+                reqAttribute.NonRevoked = new RevocationInterval()
+                 {
+                     From = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds(),
+                     To = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds()
+               }
                 string referent = !String.IsNullOrEmpty(reqAttribute.Label) ? reqAttribute.Label : Guid.NewGuid().ToString();
                 reqAttribute.Label = null; // purge unsupported value from object that will be sent to aca-py
                 if (!presentationRequest_1_0.RequestedAttributes.ContainsKey(referent))

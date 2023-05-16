@@ -11,6 +11,9 @@ namespace VCAuthn.Models
         [JsonProperty("names")]
         public string[] Names { get; set; }
 
+        [JsonProperty("non_revoked", NullValueHandling = NullValueHandling.Ignore)]
+        public RevocationInterval NonRevoked { get; set; }
+
         [JsonProperty("label"), Optional]
         public string Label { get; set; }
 
