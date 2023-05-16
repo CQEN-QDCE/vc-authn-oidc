@@ -28,7 +28,7 @@ namespace VCAuthn.Utils
                  {
                      From = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds(),
                      To = new DateTimeOffset(localTime, TimeSpan.Zero).ToUnixTimeSeconds()
-               }
+               };
                 string referent = !String.IsNullOrEmpty(reqAttribute.Label) ? reqAttribute.Label : Guid.NewGuid().ToString();
                 reqAttribute.Label = null; // purge unsupported value from object that will be sent to aca-py
                 if (!presentationRequest_1_0.RequestedAttributes.ContainsKey(referent))
